@@ -1,0 +1,27 @@
+{
+  "name": "-recipe-express-prisma",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Adam43/-recipe-express-prisma.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Adam43/-recipe-express-prisma/issues"
+  },
+  "homepage": "https://github.com/Adam43/-recipe-express-prisma#readme",
+  "dependencies": {
+    "@prisma/client": "^4.10.1",
+    "express": "^4.18.2",
+    "morgan": "^1.10.0"
+  }
+}
