@@ -11,17 +11,19 @@ datasource db {
   relationMode = "prisma"
 }
 
-model Chef {
-  id       Int       @id @default(autoincrement())
+model User {
+  id       Int     @unique   @default(autoincrement())
   username String    @db.VarChar(255)
-  recipe   Recipes[]
+  recipe   Recipes?
 }
 
 model Recipes {
-  id     Int    @id @default(autoincrement())
-  meal   String
-  userId Int
-  user   Chef   @relation(fields: [userId], references: [id])
+  id          Int   @unique @default(autoincrement())
+  name        String
+  description String
+  userId      Int @unique
+  user        User   @relation(fields: [userId], references: [id])
 
   @@index([userId])
 }
+
