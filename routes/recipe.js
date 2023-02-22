@@ -26,6 +26,7 @@ router.get("/", async (request, response) => {
     });
 });
 
+//GET | 
 router.get("/:userId/:recipeId", async function (request, response) {
     try {
       const getRecipe = await prisma.recipe.findMany({
@@ -49,7 +50,7 @@ router.get("/:userId/:recipeId", async function (request, response) {
   });
 
 
-
+//POST |
 router.post("/", async (request, response) => {
     //creates a recipe
     
@@ -67,6 +68,43 @@ router.post("/", async (request, response) => {
     });
 });
 
+//PUT | 
+router.put("/recipes/:recipeId", async (request, response) => {
+  //edit recipe
+  
+  const updateRecipe = await prisma.recipes.update({
+    data: {
+      name: request.body.recipe,
+      userId: 1,
+      description: request.body.description
+    }
+  });
+  console.log(updateRecipe)
+
+  response.status(200).json({
+    success: true
+  });
+});
+
+//DELETE |
+router.delete("/recipes/:recipeId", async (request, response) => {
+  //delete route ID
+
+  const deleteRecipe = await prisma.recipes.delete({
+    data: {
+      name: request.body.recipe,
+      userId: 1
+    }
+  });
+  console.log(deleteRecipe)
+
+  response.status(200).json({
+    success: true
+  });
+});
+
 return router;
 }
+
+
 
