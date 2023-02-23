@@ -15,7 +15,6 @@ export default function setupJWTStrategy(passport){
             } catch(error){
                 return done(error, null)
             }
-        }
-    )
-    ),    
+        })
+    );
 }

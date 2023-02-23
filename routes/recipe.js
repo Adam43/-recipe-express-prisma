@@ -10,21 +10,21 @@ router.get("/", async (request, response) => {
     //Send back all recipe
 
     //tells prisma to talk to database and find stuff
-//     const allRecipes = await prisma.recipes.findMany({
-//         where: {
-//             userId: 1 //find todos where userid is 1
-//         },
-//         include: {
-//             user: true 
-//         }
-//     });
+    const allRecipes = await prisma.recipes.findMany({
+        where: {
+            userId: 1 //find todos where userid is 1
+        },
+        include: {
+            user: true 
+        }
+    });
     
-//     //after that, it will send back a response
-//     response.status(200).json({
-//         success: true,
-//         recipes: allRecipes
-//     });
-// });
+    //after that, it will send back a response
+    response.status(200).json({
+        success: true,
+        recipes: allRecipes
+    });
+});
 
 //GET | 
 router.get("/:userId/:recipeId", async function (request, response) {
