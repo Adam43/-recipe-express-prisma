@@ -12,18 +12,17 @@ datasource db {
 }
 
 model User {
-  id       Int     @unique   @default(autoincrement())
-  username String    @db.VarChar(255)
-  recipe   Recipes?
+  id       Int      @id @default(autoincrement())
+  username String
+  recipes  Recipe[]
 }
 
-model Recipes {
-  id          Int   @unique @default(autoincrement())
+model Recipe {
+  id          Int    @id @default(autoincrement())
   name        String
   description String
-  userId      Int @unique
+  userId      Int
   user        User   @relation(fields: [userId], references: [id])
 
   @@index([userId])
 }
-

@@ -1,72 +1,79 @@
 import express from "express"
 import { prisma } from "../db/index.js"
 
+const router = express.Router();
 
-export default function recipeRouter(){
-    const router = express.Router();
 
-//todo
+//GET | get all recipes 
 router.get("/", async (request, response) => {
-    //Send back all recipe
+  const recipes = await prisma.recipes.findMany();
 
-    //tells prisma to talk to database and find stuff
-    const allRecipes = await prisma.recipes.findMany({
-        where: {
-            userId: 1 //find todos where userid is 1
-        },
-        include: {
-            user: true 
-        }
-    });
-    
-    //after that, it will send back a response
+  if (recipes.length >= 1 ) {
     response.status(200).json({
-        success: true,
-        recipes: allRecipes
-    });
+      success: true,
+      recipes: recipes,
+    })
+  } else {
+    response.status(404).json({
+      success: false,
+      message: "No Recipes found",
+    })
+  }
 });
 
-router.get("/:userId/:recipeId", async function (request, response) {
+//POST | create a recipe 
+router.post("/", async (request, response) => {
+  try {
+    const newRecipe = await prisma.recipes.create({
+      data: {
+        name: request.body.name,
+        description: request.body,description,
+        userId: 1,
+      }
+    });
+
+    if(newRecipe){
+      response.status(201).json({
+        success: true,
+        message: "Recipe was created",
+      });
+    } else {
+      response.status(500).json({
+        success: false,
+        message: "Failed to create Recipe",
+      })
+    }
+  } catch (error) {
+    response.status(500).json({
+      success: false,
+      message: "Failed to create Recipe"
+    });
+  }
+});
+
+
+//GET | get a specific recipe by ID
+router.get("/:recipeId", async (request, response) => {
+    const recipeId = request.params.recipeId;
+
     try {
-      const getRecipe = await prisma.recipe.findMany({
+      const foundRecipe = await prisma.recipes.findFirstOrThrow({
         where: {
-          id: parseInt(request.params.recipeId),
-          user: {
-            id:{
-                equals:parseInt(request.params.userId)
-            }
-          }
-        }
+          id: parseInt(recipeId),
+        },
       });
 
       response.status(200).json({
-        sucess: true,
-        data: getRecipe,
+        success: true,
+        recipe: foundRecipe,
       });
     } catch (error) {
-      console.log(error);
+      response.status(404).json({
+        success: false,
+        message: "Could not find the Recipe",
+      });
     }
-  });
-
-
-
-router.post("/", async (request, response) => {
-    //creates a recipe
-    
-    const newRecipe = await prisma.recipes.create({
-        data: {
-            name: request.body.recipe,
-            userId: 1,
-            description: request.body.description
-        },
-    });
-    console.log(newRecipe);
-
-    response.status(201).json({
-        success: true
-    });
 });
 
-return router;
-}
+export default router;
 
