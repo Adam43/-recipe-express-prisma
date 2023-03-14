@@ -1,13 +1,16 @@
 import express from "express";
 import recipeRouter from "./routes/recipe.js"
-import userRouter from "./routes/user.js";
+import authRouter from "./routes/auth.js"
+
 
 export default async function createServer(){
     const app = express();
 
     app.use(express.json());
-    app.use("/user", userRouter())
-    app.use("/recipe", recipeRouter())
+
+    app.use("/auth", authRouter());
+    
+    app.use("/recipe", recipeRouter());
 
     return app;
-}
+}       
